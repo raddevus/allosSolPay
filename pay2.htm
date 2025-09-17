@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Solana Pay Demo</title>
+  <!-- Solana Web3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  <!-- Solana Pay -->
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-js@0.0.4/qrcode.min.js"></script>
+</head>
+<body>
+  <h1>Pay with Solana</h1>
+  <div id="qr-container"></div>
+
+  <script>
+    // Access Solana Web3 and Solana Pay from global objects
+    const { PublicKey, Connection, clusterApiUrl } = solanaWeb3;
+
+    const testWallet = solanaWeb3.Keypair.generate();
+    var pubKey = testWallet.publicKey.toBase58();
+    const recWallet = solanaWeb3.Keypair.generate();
+   console.log('Public Key:', pubKey);
+    // Your wallet address
+    const recipient = new PublicKey(pubKey);
+
+    // Optional reference for tracking
+    console.log(`${recWallet.publicKey.toBase58()}`);
+    const reference = new PublicKey(recWallet.publicKey.toBase58());
+
+    // Create payment URL
+    const url = encodeURI({
+      recipient,
+      amount: 0.5,
+      reference,
+      label: 'Roger’s Store',
+      message: 'Thanks for your purchase!'
+    });
+
+    console.log(`${url}`);
+
+  </script>
+</body>
+</html>
+
